@@ -42,28 +42,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="suvirvor in suvirvors" :key="suvirvor.id">
-                    <td>@{{ suvirvor.id }}</td>
-                    <td>@{{ suvirvor.name }}</td>
-                    <td>@{{ suvirvor.age }}</td>
-                    <td>@{{ suvirvor.gender }}</td>
-                    <td>@{{ suvirvor.latitude+', ' +suvirvor.longitude}}</td>
-                    <td>@{{ suvirvor.infected }}</td>
-                    <td>@{{ suvirvor.points }}</td>
+                    <tr v-for="survivor in survivors" :key="survivor.id">
+                    <td>@{{ survivor.id }}</td>
+                    <td>@{{ survivor.name }}</td>
+                    <td>@{{ survivor.age }}</td>
+                    <td>@{{ survivor.gender }}</td>
+                    <td>@{{ survivor.latitude+', ' +survivor.longitude}}</td>
+                    <td>@{{ survivor.infected }}</td>
+                    <td>@{{ survivor.points }}</td>
                     <td>
                         <v-btn 
                             fab 
                             dark 
                             color="#00BCD4" 
                             small 
-                            @click="editForm(suvirvor.id, suvirvor.name, suvirvor.age, suvirvor.gender,suvirvor.latitude,suvirvor.longitude,suvirvor.infected,suvirvor.points)">
+                            @click="editForm(survivor.id, survivor.name, survivor.age, survivor.gender,survivor.latitude,survivor.longitude,survivor.infected,survivor.points)">
                                 <v-icon>mdi-pencil</v-icon>
                         </v-btn>
                         <v-btn fab 
                             dark 
                             color="#E53935" 
                             small 
-                            @click="destroy(suvirvor.id)">
+                            @click="destroy(survivor.id)">
                             <v-icon>mdi-delete</v-icon>
                         </v-btn>
                     </td>
@@ -80,16 +80,16 @@
             <v-form>             
               <v-container>
                 <v-row>
-                  <input v-model="suvirvor.id" hidden></input>
-                  <v-col cols="12" md="12">
-                    <v-text-field v-model="suvirvor.name" label="Nombre" outlined required>
-                        @{{ suvirvor.name }}
+                  <input v-model="survivor.id" hidden></input>
+                  {{-- <v-col cols="12" md="12">
+                    <v-text-field v-model="survivor.name" label="Nombre" outlined required>
+                        @{{ survivor.name }}
                     </v-text-field>
                   </v-col>
 
                   <v-col cols="12" md="6">
                     <v-text-field 
-                    v-model="suvirvor.age" 
+                    v-model="survivor.age" 
                     label="Edad" 
                     type="number" 
                     outlined 
@@ -100,33 +100,33 @@
 
                   <v-col cols="12" md="6">
                     <v-select
-                    v-model="suvirvor.gender" 
+                    v-model="survivor.gender" 
                     :items="genders"
                     label="Genero"
                     outlined
                   ></v-select>
-                  </v-col>
+                  </v-col> --}}
 
-                  <v-col cols="12" md="4">
+                  <v-col cols="12" md="6">
                     <v-text-field 
-                    v-model="suvirvor.latitude" 
+                    v-model="survivor.latitude" 
                     label="Latitud" 
                     type="number" 
                     outlined 
                     required></v-text-field>
                   </v-col>
 
-                  <v-col cols="12" md="4">
+                  <v-col cols="12" md="6">
                     <v-text-field 
-                    v-model="suvirvor.longitude" 
+                    v-model="survivor.longitude" 
                     label="Longitud" 
                     type="number" 
                     outlined 
                     required></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="4">
+                  {{-- <v-col cols="12" md="4">
                     <v-switch
-                    v-model="suvirvor.infected"
+                    v-model="survivor.infected"
                     label="Infectado"
                     color="red darken-3"
                     :value="1"
@@ -135,14 +135,14 @@
                   </v-col>
                   <v-col cols="12" md="12">
                     <v-text-field 
-                    v-model="suvirvor.points" 
+                    v-model="survivor.points" 
                     label="Puntos" 
                     type="number" 
                     outlined 
                     onkeypress="return event.charCode >= 48"
                     min="0"
                     required></v-text-field>
-                  </v-col>
+                  </v-col> --}}
                 </v-row>
               </v-container>            
           </v-card-text>
@@ -172,11 +172,11 @@
        data() {
         return { 
 
-            suvirvors: [],
+            survivors: [],
             dialog: false,
             operation: '', 
-            genders:[ 'male','female' ],           
-            suvirvor:{
+            genders:[ 'Male','Female' ],           
+            survivor:{
                 id: null,
                 name:'',
                 age:'',
@@ -198,41 +198,44 @@
        methods:{          
             //CRUD METHODS
             list:function(){
-              axios.get('{{ route("suvirvors.list") }}')
+              axios.get('{{ route("survivors.list") }}')
               .then(response =>{
-                this.suvirvors = response.data;                   
+                this.survivors = response.data.data;                   
               })
+            },
+            mounted(){
+                alert('{{ route("average.items") }}');
             },
             create:function(){
                 let parametros = {
-                    name:this.suvirvor.name, 
-                    age:this.suvirvor.age,
-                    gender:this.suvirvor.gender, 
-                    latitude:this.suvirvor.latitude, 
-                    longitude:this.suvirvor.longitude, 
-                    infected:this.suvirvor.infected, 
-                    points:this.suvirvor.points, 
+                    name:this.survivor.name, 
+                    age:this.survivor.age,
+                    gender:this.survivor.gender, 
+                    latitude:this.survivor.latitude, 
+                    longitude:this.survivor.longitude, 
+                    infected:this.survivor.infected, 
+                    points:this.survivor.points, 
                 };                
-                axios.post('{{ route("suvirvors.store")}}', parametros)
+                axios.post('{{ route("survivors.store")}}', parametros)
                 .then(response =>{
                   this.list();
                 });     
-                this.suvirvor.name="";
-                this.suvirvor.age="";
-                this.suvirvor.gender="";
+                this.survivor.name="";
+                this.survivor.age="";
+                this.survivor.gender="";
             },                        
             edit: function(){
                 let parametros = {
-                        name:this.suvirvor.name, 
-                        age:this.suvirvor.age,
-                        gender:this.suvirvor.gender, 
-                        latitude:this.suvirvor.latitude, 
-                        longitude:this.suvirvor.longitude, 
-                        infected:this.suvirvor.infected, 
-                        points:this.suvirvor.points, 
-                        id:this.suvirvor.id
+                        name:this.survivor.name, 
+                        age:this.survivor.age,
+                        gender:this.survivor.gender, 
+                        latitude:this.survivor.latitude, 
+                        longitude:this.survivor.longitude, 
+                        infected:this.survivor.infected, 
+                        points:this.survivor.points, 
+                        id:this.survivor.id
                     };                            
-                let route="{{ url('/api/suvirvors') }}"+'/'+parametros.id;     
+                let route="{{ url('/api/survivors') }}"+'/'+parametros.id;     
                 console.log(route);              
                 axios.put(route, parametros)                            
                 .then(response => {                                
@@ -249,7 +252,7 @@
                 showCancelButton: true,                          
               }).then((result) => {                
                 if (result.isConfirmed) {      
-                        let route="{{ url('/api/suvirvors') }}"+'/'+id;    
+                        let route="{{ url('/api/survivors') }}"+'/'+id;    
                       axios.delete(route)
                       .then(response =>{           
                           this.list();
@@ -273,23 +276,23 @@
             newForm:function () {
               this.dialog=true;
               this.operation='create';
-              this.suvirvor.name='';                           
-              this.suvirvor.age='';
-              this.suvirvor.gender='';
-              this.suvirvor.latitude = '';                      
-              this.suvirvor.longitude = '';                      
-              this.suvirvor.infected = '';                      
-              this.suvirvor.points = '';   
+              this.survivor.name='';                           
+              this.survivor.age='';
+              this.survivor.gender='';
+              this.survivor.latitude = '';                      
+              this.survivor.longitude = '';                      
+              this.survivor.infected = '';                      
+              this.survivor.points = '';   
             },
             editForm:function(id, name, age, gender, latitude, longitude, infected, points){
-              this.suvirvor.id = id;
-              this.suvirvor.name = name;                            
-              this.suvirvor.age = age;
-              this.suvirvor.gender = gender;                      
-              this.suvirvor.latitude = latitude;                      
-              this.suvirvor.longitude = longitude;                      
-              this.suvirvor.infected = infected;                      
-              this.suvirvor.points = points;                      
+              this.survivor.id = id;
+              this.survivor.name = name;                            
+              this.survivor.age = age;
+              this.survivor.gender = gender;                      
+              this.survivor.latitude = latitude;                      
+              this.survivor.longitude = longitude;                      
+              this.survivor.infected = infected;                      
+              this.survivor.points = points;                      
               this.dialog=true;                            
               this.operation='edit';
             },

@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-class SuvirvorFactory extends Factory
+class SurvivorFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -14,14 +14,24 @@ class SuvirvorFactory extends Factory
      */
     public function definition()
     {
+        $items= [
+            4=>'Water',
+            3=>'Food',
+            2=>'Medication',
+            1=>'Ammunition'
+        ];
+        $totalPoints=0;
+        foreach($items as $key=>$item){
+            $totalPoints=$totalPoints + $key;
+        }
         return [
             'name' => $this->faker->name(),
             'age'=> $this->faker->numberBetween(1, 120),
-            'gender'=> $this->faker->randomElement(['male','female']),
-            'latitude'=> $this->faker->numberBetween(1, 9999),
-            'longitude'=> $this->faker->numberBetween(1, 9999),
+            'gender'=> $this->faker->randomElement(['Male','Female']),
+            'latitude'=> $this->faker->randomFloat(),
+            'longitude'=> $this->faker->randomFloat(),
             'infected'=>false,
-            'points'=>0
+            'points'=>$totalPoints
         ];
     }
 

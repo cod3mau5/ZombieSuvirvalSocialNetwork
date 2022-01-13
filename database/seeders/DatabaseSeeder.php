@@ -13,6 +13,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Suvirvor::factory(10)->create();
+        $this->call([
+                    SurvivorsTableSeeder::class,
+                    ItemTableSeeder::class,
+                    InventoriesTableSeeder::class,
+                    ReportTableSeeder::class
+                ]);
     }
 }

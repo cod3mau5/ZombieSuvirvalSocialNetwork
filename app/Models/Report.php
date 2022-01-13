@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Inventory extends Model
+class Report extends Model
 {
     use HasFactory;
-    protected $fillable = ['survivor_id', 'item_id', 'quantity'];
+    protected $fillable = ['reporter_id', 'reported_id'];
 
-    public function survivors() {
+    function survivorInfected() {
         return $this->belongsTo(Survivor::class);
     }
 
-    public function items() {
-        return $this->belongsTo(Item::class);
+    function survivorReporter() {
+        return $this->belongsTo(Survivor::class);
     }
 }

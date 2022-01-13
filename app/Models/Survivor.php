@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Suvirvor extends Authenticatable
+class Survivor extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -26,7 +26,7 @@ class Suvirvor extends Authenticatable
         'infected',
         'points'
     ];
-
+    protected $appends = ['reports'];
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -45,4 +45,15 @@ class Suvirvor extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function inventories(){
+        return $this->hasMany(Inventory::class);
+    }
+
+    public function getReportsAttribute() {
+        $rows = $this->reports();
+        return $rows->count();
+    }
+    function reports() {
+        return $this->hasMany(Report::class, 'reported_id');
+    }
 }

@@ -13,10 +13,12 @@ class AddForeignsToInventoriesTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::table('inventories', function (Blueprint $table) {
-            $table->bigInteger('suvivor_id')->unsigned();
-            $table->foreign('suvivor_id')->references('id')->on('suvirvors')->onDelete('cascade');
+            $table->foreignId('survivor_id')->constrained('survivors');
+            $table->foreignId('item_id')->constrained('items');
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -27,8 +29,7 @@ class AddForeignsToInventoriesTable extends Migration
     public function down()
     {
         Schema::table('inventories', function (Blueprint $table) {
-            $table->dropColumn('suvivor_id');
-            $table->dropForeign('suvivor_id');
+            $table->dropForeign(['survivor_id','item_id']);
         });
     }
 }
