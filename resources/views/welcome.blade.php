@@ -20,9 +20,9 @@
       <v-main>   
        <!--<h2 class="text-center">CRUD usando APIREST con Node JS</h2>-->
        <!-- Botón create -->  
-       <v-flex class="text-center align-center">
+       {{-- <v-flex class="text-center align-center">
        <v-btn class="mx-2 mt-4"  fab dark color="#00B0FF" @click="newForm()"><v-icon dark>mdi-plus</v-icon></v-btn>           
-       </v-flex>              
+       </v-flex>  --}}
          
         <v-card class="mx-auto mt-5" color="transparent" max-width="1280" elevation="8">                    
       
@@ -38,7 +38,7 @@
                         <th class="white--text">LOCACION</th>
                         <th class="white--text">INFECTADO</th>
                         <th class="white--text">PUNTOS</th>
-                        <th class="white--text text-center">ACCIONES</th>
+                        {{-- <th class="white--text text-center">ACCIONES</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -50,7 +50,7 @@
                     <td>@{{ survivor.latitude+', ' +survivor.longitude}}</td>
                     <td>@{{ survivor.infected }}</td>
                     <td>@{{ survivor.points }}</td>
-                    <td>
+                    {{-- <td>
                         <v-btn 
                             fab 
                             dark 
@@ -66,7 +66,7 @@
                             @click="destroy(survivor.id)">
                             <v-icon>mdi-delete</v-icon>
                         </v-btn>
-                    </td>
+                    </td> --}}
                     </tr>
                 </tbody>
             </template>
