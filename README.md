@@ -434,3 +434,32 @@ Content-Type: "application/json"
 }
 
 ## PUT api/trades/exchange/{survivorSend}/{survivorReceive}
+
+
+200 Ok
+Content-Type: "application/json"
+
+{
+    "msg": "Exchange completed."
+}
+
+409 Conflict
+Content-Type: "application/json"
+
+{
+    "Erro": "Trying to exchange with the same suvivor"
+}
+
+404 Not Found
+Content-Type: "application/json"
+
+{
+    "Erro": "The sender survivor not exist"
+}
+
+400 Bad Request
+Content-Type: "application/json"
+
+{
+    "Erro": "The sender survivor is infected."
+}
